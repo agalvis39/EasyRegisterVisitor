@@ -26,13 +26,18 @@ public class Visitas {
     private String ingreso;
     private String salida;
     private String observacion;
-    private String tipoPersona;
+    private int tipoPersona;
 
     public Visitas() {
     }
 
+    public Visitas(int idVisita) {
+        this.idVisita = idVisita;
+    }
+
     
-    public Visitas(int idVisita, int identificacion, String nombre, int destino, int tipoIngreso, String tarjetaVehiculo, String autorizacion, String ingreso, String salida, String observacion, String tipoPersona) {
+    
+    public Visitas(int idVisita, int identificacion, String nombre, int destino, int tipoIngreso, String tarjetaVehiculo, String autorizacion, String ingreso, String salida, String observacion, int tipoPersona) {
         this.idVisita = idVisita;
         this.identificacion = identificacion;
         this.nombre = nombre;
@@ -126,11 +131,11 @@ public class Visitas {
         this.observacion = observacion;
     }
 
-    public String getTipoPersona() {
+    public int getTipoPersona() {
         return tipoPersona;
     }
 
-    public void setTipoPersona(String tipoPersona) {
+    public void setTipoPersona(int tipoPersona) {
         this.tipoPersona = tipoPersona;
     }
 
@@ -158,7 +163,7 @@ public class Visitas {
                 visita.setIngreso(rs.getString("ingreso"));
                 visita.setSalida(rs.getString("salida"));
                 visita.setObservacion(rs.getString("observacion"));
-                visita.setTipoPersona(rs.getString("tipoPresona"));
+                visita.setTipoPersona(rs.getInt("tipoPersona"));
                 listaVisitas.add(visita);
             }
         } catch (SQLException ex) {
@@ -185,7 +190,7 @@ public class Visitas {
                 this.ingreso = rs.getString("ingreso");
                 this.salida =  rs.getString("salida");
                 this.observacion = rs.getString("observacion");
-                this.tipoPersona = rs.getString("tipoPresona");
+                this.tipoPersona = rs.getInt("tipoPresona");
             } else {
                 return null;
             }
@@ -239,10 +244,10 @@ public class Visitas {
         }
     }
     
-    public boolean eliminarAutor() {
+    public boolean eliminarVisita() {
         ConexionBD conexion = new ConexionBD();
         String sql = "DELETE FROM visitas\n"
-                + "WHERE idVisita='" + this.idVisita + "';";
+                + "WHERE idVisita=" + this.idVisita + ";";
         if (conexion.setAutoCommitBD(false)) {
             if (conexion.actualizarBD(sql)) {
                 conexion.commitBD();
