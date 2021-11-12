@@ -16,6 +16,7 @@ import persistencia.ConexionBD;
  * @author codes
  */
 public class Visitas {
+
     private int idVisita;
     private int identificacion;
     private String nombre;
@@ -35,8 +36,6 @@ public class Visitas {
         this.idVisita = idVisita;
     }
 
-    
-    
     public Visitas(int idVisita, int identificacion, String nombre, int destino, int tipoIngreso, String tarjetaVehiculo, String autorizacion, String ingreso, String salida, String observacion, int tipoPersona) {
         this.idVisita = idVisita;
         this.identificacion = identificacion;
@@ -74,7 +73,7 @@ public class Visitas {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
+
     public int getDestino() {
         return destino;
     }
@@ -173,7 +172,7 @@ public class Visitas {
         }
         return listaVisitas;
     }
-    
+
     public Visitas consultarVisita() {
         ConexionBD conexion = new ConexionBD();
         String sql = "SELECT * FROM visitas WHERE idVisita=" + this.idVisita + ";";
@@ -188,7 +187,7 @@ public class Visitas {
                 this.tarjetaVehiculo = rs.getString("tarjetaVehiculo");
                 this.autorizacion = rs.getString("autorizacion");
                 this.ingreso = rs.getString("ingreso");
-                this.salida =  rs.getString("salida");
+                this.salida = rs.getString("salida");
                 this.observacion = rs.getString("observacion");
                 this.tipoPersona = rs.getInt("tipoPresona");
             } else {
@@ -201,12 +200,12 @@ public class Visitas {
         }
         return this;
     }
-    
+
     public boolean guardarVisita() {
         ConexionBD conexion = new ConexionBD();
-        String sql = "INSERT INTO visitas\n" +
-"(identificacion, nombre, destino, tipoIngreso, tarjetaVehiculo, autorizacion, ingreso, salida, observacion, tipoPersona)\n" +
-    "VALUES("+this.identificacion+", '"+this.nombre+"', "+this.destino+", "+this.tipoIngreso+", '"+this.tarjetaVehiculo+"', '"+this.autorizacion+"', '"+this.ingreso+"', '"+this.salida+"', '"+this.observacion+"', "+this.tipoPersona+");";
+        String sql = "INSERT INTO visitas\n"
+                + "(identificacion, nombre, destino, tipoIngreso, tarjetaVehiculo, autorizacion, ingreso, salida, observacion, tipoPersona)\n"
+                + "VALUES(" + this.identificacion + ", '" + this.nombre + "', " + this.destino + ", " + this.tipoIngreso + ", '" + this.tarjetaVehiculo + "', '" + this.autorizacion + "', '" + this.ingreso + "', '" + this.salida + "', '" + this.observacion + "', " + this.tipoPersona + ");";
         if (conexion.setAutoCommitBD(false)) {
             if (conexion.insertarBD(sql)) {
                 conexion.commitBD();
@@ -222,12 +221,12 @@ public class Visitas {
             return false;
         }
     }
-    
+
     public boolean actualizarVisita() {
         ConexionBD conexion = new ConexionBD();
-        String sql = "UPDATE visitas\n" +
-"SET identificacion="+this.identificacion+", nombre='"+this.nombre+"', destino="+this.destino+", tipoIngreso="+this.tipoIngreso+", tarjetaVehiculo='"+this.tarjetaVehiculo+"', autorizacion='"+this.autorizacion+"', ingreso='"+this.ingreso+"', salida='"+this.salida+"', observacion='"+this.observacion+"', tipoPersona="+this.tipoPersona+"\n" +
-"WHERE idVisita="+this.idVisita+"";
+        String sql = "UPDATE visitas\n"
+                + "SET identificacion=" + this.identificacion + ", nombre='" + this.nombre + "', destino=" + this.destino + ", tipoIngreso=" + this.tipoIngreso + ", tarjetaVehiculo='" + this.tarjetaVehiculo + "', autorizacion='" + this.autorizacion + "', ingreso='" + this.ingreso + "', salida='" + this.salida + "', observacion='" + this.observacion + "', tipoPersona=" + this.tipoPersona + "\n"
+                + "WHERE idVisita=" + this.idVisita + "";
         if (conexion.setAutoCommitBD(false)) {
             if (conexion.actualizarBD(sql)) {
                 conexion.commitBD();
@@ -243,7 +242,7 @@ public class Visitas {
             return false;
         }
     }
-    
+
     public boolean eliminarVisita() {
         ConexionBD conexion = new ConexionBD();
         String sql = "DELETE FROM visitas\n"

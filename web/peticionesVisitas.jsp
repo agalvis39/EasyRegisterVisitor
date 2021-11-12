@@ -72,6 +72,7 @@
             //creación de objeto y llamado a método eliminar
             int idVisita = Integer.parseInt(request.getParameter("idVisita"));
             Visitas vis = new Visitas(idVisita);
+            
             if (vis.eliminarVisita()) {
                 respuesta += "\"" + proceso + "\": true";
             } else {
