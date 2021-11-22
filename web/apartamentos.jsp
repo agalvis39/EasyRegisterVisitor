@@ -47,7 +47,7 @@
                             <input type="number" class="form-control" placeholder="# Apartamento" ng-model="cap.napartamento">
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="col-3">
                     <label>Propietario</label>
@@ -73,13 +73,13 @@
                             <label><br></label>
                             <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Apartamento" readonly="true" value="{{cap.napartamento}}">
                         </div>
-<!--                        <div class="col-2">
-
-                        </div>-->
+                        <!--                        <div class="col-2">
+                        
+                                                </div>-->
                     </div>
                     <div class="row">
                         <div class="col-3">
-                            <label>Datáfono</label>
+                            <label>Citófono</label>
                             <input type="number" class="form-control" aria-label="Text input with dropdown button" placeholder="Datáfono" ng-model="cap.datafono">
                         </div>
                         <div class="col-2">
@@ -116,17 +116,19 @@
                                 <th scope="col">Propietario</th>
                                 <th scope="col">Residentes</th>
                                 <th scope="col">Dirección</th>
-                                <th scope="col">Datáfono</th>
+                                <th scope="col">Citófono</th>
                                 <th scope="col">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="ap in cap.Apartamentos">
-                            <td>{{ap.nApartamento}}</td>
+                                <td>{{ap.nApartamento}}</td>
                                 <td>{{ap.torre}}</td>
                                 <td>{{ap.piso}}</td>
                                 <td>{{ap.propietario}}</td>
-                                <td>{{ap.residente}}</td>
+                                <td>
+                                    <textarea class="form-control" rows="6" disabled="">{{ap.residente}}</textarea>
+                                </td>
                                 <td>{{ap.direccion}}</td>
                                 <td>{{ap.datafono}}</td>
                                 <td>
@@ -134,9 +136,9 @@
                                         <div class="col6 mr-3">
                                             <button type="button" class="btn btn-info" ng-click="cap.editar(ap.nApartamento)">Editar</button>
                                         </div>
-<!--                                        <div class="col6">
-                                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#verMasModal" >Ver mas</button>
-                                        </div>-->
+                                        <!--                                        <div class="col6">
+                                                                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#verMasModal" >Ver mas</button>
+                                                                                </div>-->
                                     </div>
                                 </td>
                             </tr>
@@ -190,19 +192,19 @@
 //                } else {
 //                    return false;
 //                }
-            cap.listarAptos = function (){
-                 var parametros = {
-                        proceso: 'listarApartamento'
-                    };
-                    $http({
-                        method: 'POST',
-                        url: 'peticionesApartamento.jsp',
-                        params: parametros
-                    }).then(function (res) {
-                        cap.Apartamentos = res.data.Apartamentos;
-                    });
+            cap.listarAptos = function () {
+                var parametros = {
+                    proceso: 'listarApartamento'
+                };
+                $http({
+                    method: 'POST',
+                    url: 'peticionesApartamento.jsp',
+                    params: parametros
+                }).then(function (res) {
+                    cap.Apartamentos = res.data.Apartamentos;
+                });
             };
-            cap.traerDireccion = function(){
+            cap.traerDireccion = function () {
                 var parametros = {
                     proceso: 'listarDirecciones'
                 };
@@ -210,7 +212,7 @@
                     method: 'POST',
                     url: 'peticionesDireccion.jsp',
                     params: parametros
-                }).then(function (res){
+                }).then(function (res) {
                     cap.direccion_1 = res.data.Direcciones.direccion;
                 });
             };
@@ -236,14 +238,14 @@
             };
             cap.actualizar = function (nApto) {
                 var parametros = {
-                    
+
                     proceso: 'actualizarApartamento',
                     nApartamento: nApto,
                     residente: cap.residentes,
                     propietario: cap.propietario,
                     torre: cap.torre,
                     piso: cap.piso,
-                    direccion: cap.direccion_1+" torre "+cap.torre+" piso "+cap.piso+" #Apto "+cap.napartamento,
+                    direccion: cap.direccion_1 + " torre " + cap.torre + " piso " + cap.piso + " #Apto " + cap.napartamento,
                     datafono: cap.datafono
                 };
                 $http({
@@ -280,7 +282,7 @@
                     propietario: cap.propietario,
                     torre: cap.torre,
                     piso: cap.piso,
-                    direccion: cap.direccion_1+" torre "+cap.torre+" piso "+cap.piso+" #Apto "+cap.napartamento,
+                    direccion: cap.direccion_1 + " torre " + cap.torre + " piso " + cap.piso + " #Apto " + cap.napartamento,
                     datafono: cap.datafono
                 };
                 $http({
@@ -304,7 +306,7 @@
                                 icon: "error",
                                 button: "cerrar"
                             });
-                        
+
                         }
                     } else {
                         swal({
@@ -353,6 +355,7 @@
                     }
                 });
             };
-        };
+        }
+        ;
     </script>
 </html>
