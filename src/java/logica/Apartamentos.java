@@ -1,6 +1,5 @@
 package logica;
 
-import com.sun.org.apache.xalan.internal.xsltc.trax.TrAXFilter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
