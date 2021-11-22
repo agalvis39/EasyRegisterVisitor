@@ -80,7 +80,7 @@
                     <div class="row">
                         <div class="col-3">
                             <label>Citófono</label>
-                            <input type="number" class="form-control" aria-label="Text input with dropdown button" placeholder="Datáfono" ng-model="cap.datafono">
+                            <input type="number" class="form-control" aria-label="Text input with dropdown button" placeholder="Citófono" ng-model="cap.datafono">
                         </div>
                         <div class="col-2">
                             <label><br></label>
