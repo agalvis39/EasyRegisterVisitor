@@ -21,6 +21,44 @@
     </head>
     <body>
         <jsp:include page="menu.jsp"/>
-        <h1>Hello World!</h1>
+        <div class="container-fluid" ng-app="login" ng-controller="loginController as lc">
+            <div class="row">
+                <div class="col-4"></div>
+                <div class="col-4">
+                    <div class="row">
+                        <div class="col-12">
+                            <label>Nombre Usuario</label> 
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <label>Contraseña</label>
+                            <input type="password" class="form-control" >
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <button type="button" class="btn btn-primary mt-2" ng-click="lc.IniciarSesion">Iniciar Sesion</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script> 
+            var app = angular.module('login',[]);
+            app.controller('loginController', ['$http', controladorLogin]);
+            function controladorLogin($http) {
+                var lc = this;
+                lc.IniciarSesion = function(){
+                    var parametros={
+                        proceso='IniciarSesion',
+                        nombreDeUsuario:lc.nombreDeUsuario,
+                        contrasenna:lc.contrasenna
+                    };
+                   $http({}).then(function(respuesta){});
+                };
+            }
+        </script>
     </body>
 </html>
