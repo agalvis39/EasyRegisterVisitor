@@ -91,7 +91,7 @@
                         </div>
                         <div class="col-2">
                             <br>
-                            <button type="button" class="btn btn-warning" ng-click="cap.actualizar(cap.nApto)">Actualizar</button>                        
+                            <button type="button" class="btn btn-warning" ng-click="cap.actualizar(cap.nApto, cap.napartamento)">Actualizar</button>                        
                         </div>
                         <div class="col-2">
                             <br>
@@ -226,7 +226,7 @@
                     url: 'peticionesApartamento.jsp',
                     params: parametros
                 }).then(function (res) {
-                    alert(JSON.stringify(res.data.Apartamento));
+//                    alert(JSON.stringify(res.data.Apartamento));
                     cap.nApto = res.data.Apartamento.nApartamento;
                     cap.torre = res.data.Apartamento.torre;
                     cap.piso = res.data.Apartamento.piso;
@@ -236,11 +236,12 @@
                     cap.datafono = res.data.Apartamento.datafono;
                 });
             };
-            cap.actualizar = function (nApto) {
+            cap.actualizar = function (nApto, nuevoApto) {
                 var parametros = {
 
                     proceso: 'actualizarApartamento',
-                    nApartamento: nApto,
+                    nApartamento: nuevoApto,
+                    Apto: nApto,        
                     residente: cap.residentes,
                     propietario: cap.propietario,
                     torre: cap.torre,
@@ -253,7 +254,7 @@
                     url: 'peticionesApartamento.jsp',
                     params: parametros
                 }).then(function (res) {
-                    alert(nApto);
+//                    alert(cap.nApto);
                     if (res.data.ok === true) {
                         if (res.data.actualizarApartamento === true) {
                             swal({

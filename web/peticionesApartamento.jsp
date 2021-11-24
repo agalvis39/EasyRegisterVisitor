@@ -100,6 +100,7 @@
         } else if (proceso.equals("actualizarApartamento")) {
             //creación de objeto y llamado al metodo actualizar
             int nApartamento = Integer.parseInt(request.getParameter("nApartamento"));
+            int Apto = Integer.parseInt(request.getParameter("Apto"));
             String propietario = request.getParameter("propietario");
             String residente = request.getParameter("residente");
             String torre = request.getParameter("torre");
@@ -116,7 +117,7 @@
             apart.setDireccion(direccion);
             apart.setDatafono(datafono);
             apart.setPiso(piso);
-            if (apart.actualizarApartamento()) {
+            if (apart.actualizarApartamento(Apto)) {
                 respuesta += "\"" + proceso + "\": true";
             } else {
                 respuesta += "\"" + proceso + "\": false";

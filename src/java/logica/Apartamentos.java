@@ -98,7 +98,7 @@ public class Apartamentos {
         List<Apartamentos> listaApartamentos = new ArrayList<>();
         ConexionBD conexion = new ConexionBD();
         String sql = "SELECT *"
-                + "FROM apartamentos;";
+                + "FROM apartamentos ORDER BY nApartamento ASC;";
         ResultSet rs = conexion.consultarBD(sql);
         try {
             Apartamentos apar;
@@ -169,11 +169,11 @@ public class Apartamentos {
         }
     }
 
-    public boolean actualizarApartamento() {
+    public boolean actualizarApartamento(int Apto) {
         ConexionBD conexion = new ConexionBD();
         String sql = "UPDATE apartamentos\n"
-                + "SET propietario='" + this.propietario + "', residente='" + this.residente + "', torre='" + this.torre + "', direccion='" + this.direccion + "', datafono=" + this.datafono + ", piso='" + this.piso + "'\n"
-                + "WHERE nApartamento=" + this.nApartamento + ";";
+                + "SET nApartamento=" + this.nApartamento + ", propietario='" + this.propietario + "', residente='" + this.residente + "', torre='" + this.torre + "', direccion='" + this.direccion + "', datafono=" + this.datafono + ", piso='" + this.piso + "'\n"
+                + "WHERE nApartamento=" + Apto + ";";
 
         if (conexion.setAutoCommitBD(false)) {
             if (conexion.actualizarBD(sql)) {

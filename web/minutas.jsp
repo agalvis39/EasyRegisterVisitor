@@ -61,28 +61,23 @@
                     </div>   
                 </div>
                 <div class="col-4">
-                    <label>Identificación</label>
-                    <div class="w-75 input-group mb-3">
-                        <div class="input-group-prepend">
-                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">Acciones</button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Buscar</a>
-                                <a class="dropdown-item" href="#">Limpiar</a>
-                            </div>
-                        </div>
-                        <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Identificación" ng-model="cap.torre">
+                    <br>
+                    <div class="form-check">
+                         <input class="form-check-input" type="radio" name="Peatonal" id="tipoPeaotonal" value="1">
+                         <label class="form-check-label" for="Peatonal">
+                             Ingreso Peatonal
+                         </label>
                     </div>
-                    <label>Nombre</label>
-                    <div class="w-75 input-group mb-3">
+                    <br>
+                    <!--<label>Ingreso Vehicular</label>-->
+                    <div class="w-75 input-group">
                         <div class="input-group-prepend">
-                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">Acciones</button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Buscar</a>
-                                <a class="dropdown-item" href="#">Limpiar</a>
+                            <div class="input-group-text">
+                                <input type="radio" aria-label="Radio button for following text input" id="tipoVehicular" value="2">
                             </div>
                         </div>
-                        <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Nombre" ng-model="cap.torre">
-                    </div>   
+                        <input type="text" class="form-control" aria-label="Text input with radio button" placeholder="Ingreso Vehicular: Tarjeta de Propieadad" disabled="">
+                    </div>
                 </div>
                 <div class="col-3">
                     <label><br></label>
