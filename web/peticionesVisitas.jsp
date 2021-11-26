@@ -85,6 +85,9 @@
             //creación de objeto y llamado al metodo listar
             try {
                 List<Visitas> lista = new Visitas().consultarTodasLasVisitas();
+//                if (lista.get(10).equals(1)){
+//                    System.out.println(1);
+//                }
                 respuesta += "\"" + proceso + "\": true,\"Visitas\":" + new Gson().toJson(lista);
             } catch (Exception ex) {
                 respuesta += "\"" + proceso + "\": true,\"Visitas\":[]";

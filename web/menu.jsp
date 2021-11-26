@@ -33,7 +33,7 @@
               <a class="nav-link" href="apartamentos.jsp">Apartamentos</a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="minutas.jsp">Minutas</a>
+              <a class="nav-link" href="minutas_1.jsp">Minutas</a>
           </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">
