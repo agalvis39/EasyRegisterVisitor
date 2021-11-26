@@ -4,8 +4,7 @@
     Author     : Diego
 --%>
 
-<%@page import="logica.Vigilante"%>
-<%@page import="logica.Visitas"%>
+<%@page import="logica.AdminConjunto"%>
 <%@page import="java.util.logging.Logger"%>
 <%@page import="java.util.logging.Level"%>
 <%@page import="com.google.gson.Gson"%>
@@ -48,7 +47,7 @@
             
 //            
             
-            if (vig.guardarAdminConjunto()) {
+            if (Adm.guardarAdminConjunto()) {
                 respuesta += "\"" + proceso + "\": true";
             } else {
                 respuesta += "\"" + proceso + "\": false";
@@ -72,11 +71,11 @@
             //, uso de request.getParameter("nombre parametro")
             //creación de objeto y llamado al metodo listar
             try {
-                List<AdminConjunto> lista = new AdminConjunto().consultarAdminConjunto();
-                respuesta += "\"" + proceso + "\": true,\"AdminConjunto\":" + new Gson().toJson(lista);
+                List<AdminConjunto> lista = new AdminConjunto().consultarTodasLosAdminConjunto();
+                respuesta += "\"" + proceso + "\": true,\"AdminConjuntos\":" + new Gson().toJson(lista);
             } catch (Exception ex) {
-                respuesta += "\"" + proceso + "\": true,\"AdminConjunto\":[]";
-                Logger.getLogger(Admins.class.getName()).log(Level.SEVERE, null, ex);
+                respuesta += "\"" + proceso + "\": true,\"AdminConjuntos\":[]";
+                Logger.getLogger(AdminConjunto.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else if (proceso.equals("consultarUnAdminConjunto")) {
             //Solicitud de parámetros enviados desde el frontned
@@ -87,11 +86,11 @@
             try {
                 AdminConjunto obj =new AdminConjunto();
                 obj.setIdentificacion(identificacion);
-                obj.buscarAdminConjunto();
+                obj.consultarAdminConjunto();
                 respuesta += "\"" + proceso + "\": true,\"AdminConjunto\":" + new Gson().toJson(obj);
             } catch (Exception ex) {
                 respuesta += "\"" + proceso + "\": true,\"AdminConjunto\":null";
-                Logger.getLogger(Admins.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AdminConjunto.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (proceso.equals("actualizarAdminConjunto")) {
             //creación de objeto y llamado al metodo actualizar
@@ -101,7 +100,7 @@
             String contrasena = request.getParameter("contrasena");
             AdminConjunto Adm = new AdminConjunto(identificacion, nombre, usuario, contrasena);
             
-            if (Adm.actualizarVigilante()) {
+            if (Adm.actualizarAdminConjunto()) {
                 respuesta += "\"" + proceso + "\": true";
             } else {
                 respuesta += "\"" + proceso + "\": false";

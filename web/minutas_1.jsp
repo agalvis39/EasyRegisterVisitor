@@ -58,11 +58,25 @@
                             </div>
                         </div>
                         <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Nombre" ng-model="cap.torre">
-                    </div>   
+                    </div>
+                    <div class="form-row">
+                        <div class="col-3">
+                            <div>
+                                <br>
+                                <button type="button" class="btn btn-success" ng-click="cap.guardar()">Guardar</button>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div>
+                                <br>
+                                <button type="button" class="btn btn-warning" ng-click="cap.actualizar(cap.nApto, cap.napartamento)">Actualizar</button>                        
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-3">
-                    <br>
-                    <div class="dropdown">
+                   
+<!--                    <div class="dropdown form-row">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
                             Perfil
                         </button>
@@ -73,12 +87,21 @@
                             <a class="dropdown-item" href="#">Contratista</a>
                             <a class="dropdown-item" href="#">Visitante</a>
                         </div>
-                    </div>
+                    </div>-->
+                    <label>Perfil</label>
+                    <select class="w-50 form-control" ng-init="cm.listarTiposPersona()">
+                        <option ng-repeat="p in cm.Perfiles" value="{{p.idPersona}}">{{p.persona}}</option>
+                    </select>
+                    <br>
+                    <label>Destino</label>
+                    <select class="w-50 form-control"  ng-init="cm.listarApartamentos()">
+                        <option ng-repeat="a in cm.Apartamentos" value="{{a.nApartamento}}">{{a.nApartamento}}</option>
+                    </select>
                     
                     <br>
                     
                     <br>
-                    <div class="dropdown">
+<!--                    <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
                             Autorización
                         </button>
@@ -88,32 +111,27 @@
                             <a class="dropdown-item" href="#">Verificado</a>
                             <a class="dropdown-item" href="#">No Verificado</a>
                         </div>
-                    </div>
+                    </div>-->
+                    
                    
                 </div>
                 <div class="col-3">
-                    <br>
+                    
+                    <label>Tipo de Ingreso</label>
+                    <select class="w-50 form-control" ng-model="cm.tipoDeIngreso" ng-init="cm.listarTipoIngreso()">
+                        <option ng-repeat="c in cm.listaTipoIngreso" value="{{c.idTipoIngreso}}">{{c.tipoIngreso_1}}</option>
+                    </select>
                     <br>
                     
-<!--                    <td  class="text-left">
-                        Tipo Ingreso
-                        <span class="label label-default text-right">0 - 1</span>
-                    </td>-->
-                    
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="Peatonal" id="tipoPeaotonal" value="1">
-                        <label class="form-check-label" for="Peatonal">
-                            Ingreso Peatonal
-                        </label>
+                    <div class="form-row">
+                        <div class="col-6"><label>Indique matrícula del vehículo si aplica: </label>
+                        <input type="text" class="form-control" placeholder="Matrícula" disabled=""></div>
                     </div>
                     <br>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="Peatonal" id="tipoPeaotonal" value="1">
-                        <label class="form-check-label" for="Peatonal">
-                            Ingreso Vehicular
-                        </label>
-                        <input type="text" class="w-50 form-control" placeholder="Matrícula" disabled="">
-                    </div>
+                    <label>Autorización</label>
+                    <select class="w-50 form-control"  ng-init="cm.listarAutorizacion()">
+                        <option ng-repeat="at in cm.ListaAutorizacion" value="{{at.idAutorizacion}}">{{at.Autorizacion}}</option>
+                    </select>
 
                 </div>
                 <div class="col-3">
@@ -124,7 +142,7 @@
                 </div>
                 
             </div>
-           
+            <br>
             <div class="row mt-2">
                 <div class="col-12">
                     <table class="table">
@@ -151,10 +169,10 @@
                                 <td>{{ap.identificacion}}</td>
                                 <td>{{ap.nombre}}</td>
                                 <td>{{ap.destino}}</td>
-                                <td>{{ap.tipoPersona}}</td>
-                                <td>{{ap.tipoIngreso}}</td>
+                                <td>{{ap.perfil.persona}}</td>
+                                <td>{{ap.tipoIngreso.tipoIngreso_1}}</td>
                                 <td>{{ap.tarjetaVehiculo}}</td>
-                                <td>{{ap.autorizacion}}</td>
+                                <td>{{ap.autorizacion.Autorizacion}}</td>
                                 <td>{{ap.ingreso}}</td>
                                 <td>{{ap.salida}}</td>
                                 <td>
@@ -177,7 +195,7 @@
                     </table>
                 </div>
             </div>
-            <div class="modal fade" id="eliminarModal" tabindex="-1" aria-labelledby="eliminarModalLabel" aria-hidden="true">
+<!--            <div class="modal fade" id="eliminarModal" tabindex="-1" aria-labelledby="eliminarModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -195,7 +213,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>
     </body>
     <script>
@@ -231,8 +249,62 @@
                     url: 'peticionesVisitas.jsp',
                     params: parametros
                 }).then(function (res) {
-                    alert(JSON.stringify(res));
+//                    alert(JSON.stringify(res));
                     cm.minutas = res.data.Visitas;
+                });
+            };
+            cm.listarTipoIngreso = function () {
+                var parametros = {
+                    proceso: 'listarTipoIngreso'
+                };
+                $http({
+                    method: 'POST',
+                    url: 'peticionesTipoIngreso.jsp',
+                    params: parametros
+                }).then(function (res) {
+                    cm.listaTipoIngreso = res.data.TiposDeIngreso;
+                });
+            };
+            cm.listarTiposPersona = function () {
+                var parametros = {
+                    proceso: 'listarTiposPersona'
+                };
+                $http({
+                    method: 'POST',
+                    url: 'peticionesTipoPersona.jsp',
+                    params: parametros
+                }).then(function (res) {
+                    
+                    cm.Perfiles = res.data.TiposDePersona;
+//                    alert(JSON.stringify(cm.Perfiles));
+                });
+            };
+            cm.listarApartamentos = function () {
+                var parametros = {
+                    proceso: 'listarApartamento'
+                };
+                $http({
+                    method: 'POST',
+                    url: 'peticionesApartamento.jsp',
+                    params: parametros
+                }).then(function (res) {
+                    
+                    cm.Apartamentos = res.data.Apartamentos;
+//                    alert(JSON.stringify(cm.Apartamentos));
+                });
+            };
+            cm.listarAutorizacion = function () {
+                var parametros = {
+                    proceso: 'listarAutorizacion'
+                };
+                $http({
+                    method: 'POST',
+                    url: 'peticionesAutorizacion.jsp',
+                    params: parametros
+                }).then(function (res) {
+                    
+                    cm.ListaAutorizacion = res.data.ListaAutorizacion;
+//                    alert(JSON.stringify(cm.ListaAutorizacion));
                 });
             };
 //            cap.traerDireccion = function () {

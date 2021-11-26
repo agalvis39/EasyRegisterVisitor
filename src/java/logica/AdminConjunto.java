@@ -80,13 +80,13 @@ public class AdminConjunto{
         String sql = "SELECT * FROM AdminConjunto;";
         ResultSet rs = conexion.consultarBD(sql);
         try {
-            AdminConjunto identificacion;
+            AdminConjunto ident;
             while (rs.next()) {
-                identificacion = new AdminConjunto();
-                identificacion.setIdentificacion(rs.getInt("identificacion"));
-                identificacion.setNombre(rs.getString("nombre"));
-                identificacion.setUsuario(rs.getString("usuario"));
-                identificacion.setContrasena(rs.getString("contrasena"));
+                ident = new AdminConjunto();
+                ident.setIdentificacion(rs.getInt("identificacion"));
+                ident.setNombre(rs.getString("nombre"));
+                ident.setUsuario(rs.getString("usuario"));
+                ident.setContrasena(rs.getString("contrasena"));
             }
         } catch (SQLException ex) {
             System.out.println("Error:" + ex.getMessage());

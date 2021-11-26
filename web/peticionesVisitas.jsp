@@ -40,7 +40,7 @@
             int identificacion = Integer.parseInt(request.getParameter("identificacion"));
             String nombre = request.getParameter("nombre");
             int destino = Integer.parseInt(request.getParameter("destino"));
-            int tipoIngreso = Integer.parseInt(request.getParameter("tipoIngreso"));
+            int idTipoIngreso = Integer.parseInt(request.getParameter("idTipoIngreso"));
             String tarjetaVehiculo = request.getParameter("tarjetaVehiculo");
             String autorizacion = request.getParameter("autorizacion");
             String ingreso = request.getParameter("ingreso");
@@ -52,9 +52,9 @@
             vis.setIdentificacion(identificacion);
             vis.setNombre(nombre);
             vis.setDestino(destino);
-            vis.setTipoIngreso(tipoIngreso);
+            vis.setIdTipoIngreso(idTipoIngreso);
             vis.setTarjetaVehiculo(tarjetaVehiculo);
-            vis.setAutorizacion(autorizacion);
+//            vis.setAutorizacion(autorizacion);
             vis.setIngreso(ingreso);
             vis.setSalida(salida);
             vis.setObservacion(observacion);
@@ -85,9 +85,7 @@
             //creación de objeto y llamado al metodo listar
             try {
                 List<Visitas> lista = new Visitas().consultarTodasLasVisitas();
-//                if (lista.get(10).equals(1)){
-//                    System.out.println(1);
-//                }
+                
                 respuesta += "\"" + proceso + "\": true,\"Visitas\":" + new Gson().toJson(lista);
             } catch (Exception ex) {
                 respuesta += "\"" + proceso + "\": true,\"Visitas\":[]";
@@ -111,7 +109,7 @@
             int identificacion = Integer.parseInt(request.getParameter("identificacion"));
             String nombre = request.getParameter("nombre");
             int destino = Integer.parseInt(request.getParameter("destino"));
-            int tipoIngreso = Integer.parseInt(request.getParameter("tipoIngreso"));
+            int idTipoIngreso = Integer.parseInt(request.getParameter("idTipoIngreso"));
             String tarjetaVehiculo = request.getParameter("tarjetaVehiculo");
             String autorizacion = request.getParameter("autorizacion");
             String ingreso = request.getParameter("ingreso");
@@ -122,9 +120,9 @@
             vis.setIdentificacion(identificacion);
             vis.setNombre(nombre);
             vis.setDestino(destino);
-            vis.setTipoIngreso(tipoIngreso);
+            vis.setIdTipoIngreso(idTipoIngreso);
             vis.setTarjetaVehiculo(tarjetaVehiculo);
-            vis.setAutorizacion(autorizacion);
+//            vis.setAutorizacion(autorizacion);
             vis.setIngreso(ingreso);
             vis.setSalida(salida);
             vis.setObservacion(observacion);
