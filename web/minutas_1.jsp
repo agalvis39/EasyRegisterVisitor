@@ -38,27 +38,10 @@
             <div class="form-row">
                 <div class="w-75 col-3">
                     <label>Identificación</label>
-                    <div class="w-75 input-group mb-3">
-                        <div class="input-group-prepend">
-                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">Acciones</button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Buscar</a>
-                                <a class="dropdown-item" href="#">Limpiar</a>
-                            </div>
-                        </div>
-                        <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Identificación" ng-model="cm.identificacion">
-                    </div>
+                    <input type="text" class="w-75 form-control" aria-label="Text input with dropdown button" placeholder="Identificación" ng-model="cm.identificacion">
+                    <br>
                     <label>Nombre</label>
-                    <div class="w-75 input-group mb-3">
-                        <div class="input-group-prepend">
-                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">Acciones</button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Buscar</a>
-                                <a class="dropdown-item" href="#">Limpiar</a>
-                            </div>
-                        </div>
-                        <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Nombre" ng-model="cm.nombre">
-                    </div>
+                    <input type="text" class="w-75 form-control" aria-label="Text input with dropdown button" placeholder="Nombre" ng-model="cm.nombre">
                     <div class="form-row">
                         <div class="col-3">
                             <div>
@@ -69,7 +52,13 @@
                         <div class="col-3">
                             <div>
                                 <br>
-                                <button type="button" class="btn btn-warning" ng-click="cm.actualizar(cm.nApto, cm.napartamento)">Actualizar</button>                        
+                                <button type="button" class="btn btn-warning" ng-click="cm.actualizar(cm.nminuta)">Actualizar</button>                        
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div>
+                                <br>
+                                <button type="button" class="btn btn-info" ng-click="cm.limpiarForm()">Limpiar</button>                        
                             </div>
                         </div>
                     </div>
@@ -78,7 +67,7 @@
                    
 
                     <label>Perfil</label>
-                    <select class="w-50 form-control" ng-model="cm.tipopersona" ng-init="cm.listarTiposPersona()">
+                    <select class="w-75 form-control" ng-model="cm.tipopersona" ng-init="cm.listarTiposPersona()">
                         <option ng-repeat="p in cm.Perfiles" value="{{p.idPersona}}">{{p.persona}}</option>
                     </select>
                     <br>
@@ -196,26 +185,21 @@
         var input = document.getElementById('input');
 
         function carg(elemento, elemento2) {
-          if (elemento2 === null){
-              d = elemento.value;
-          
-          if(d === "1"){
-            input.disabled = true;
-          }else{
-            input.disabled = false;
-          }
-          }else{
-            e = elemento2;
-          alert(e);
-          if(e === "1"){
-            input.disabled = true;
-          }else{
-            input.disabled = false;
-          }  
-          }
-          
-        
-          
+            if (elemento2 === null){
+                d = elemento.value;
+                if(d === "1"){
+                    input.disabled = true;
+                }else{
+                    input.disabled = false;
+                }
+            }else{
+                e = elemento2;
+                if(e === "1"){
+                    input.disabled = true;
+                }else{
+                    input.disabled = false;
+                }  
+            }
         }
     </script>
     <script>
@@ -337,48 +321,62 @@
                     
                 });
             };
+            cm.limpiarForm = function(){
+                cm.nminuta = null;
+                cm.identificacion = null;
+                cm.nombre = null;
+                cm.Destino_select = null;
+                cm.tipoingreso = null;
+                cm.tarjetavehiculo = null;
+                cm.autorizacion = null;
+                cm.ingreso = null;
+                cm.salida = null;
+                cm.observacion = null;
+                cm.tipopersona = null;
+            };
             
-//            cap.actualizar = function (nMinuta) {
-//                var parametros = {
-//
-//                    proceso: 'actualizarMinutas',
-//                    nMinuta: nMinuta,
-//                    identificacion: cap.identificacion,
-//                    nombre: cap.nombre,
-//                    destino: cap.destino,
-//                    tarjetavehiculo: cap.tarjetavehiculo,
-//                    autorizacion: cap.autorizacion + " identificacion " + cap.identificacion + " nombre " + cap.nombre + " destino " + cap.destino,
-//                    ingreso: cap.ingreso
-//                    salida: cap.salida
-//                    observacion: cap.observacion
-//                    tipopersona: cap.tipopersona
-//                };
-//                $http({
-//                    method: 'POST',
-//                    url: 'peticionesVisitas.jsp',
-//                    params: parametros
-//                }).then(function (res) {
-//                    alert(nMinuta);
-//                    if (res.data.ok === true) {
-//                        if (res.data.actualizarMinuta === true) {
-//                            swal({
-//                                title: "Ejecutó",
-//                                text: "El registro fue actualizado exitosamente",
-//                                icon: "success",
-//                                button: "cerrar"
-//                            });
-//                            cap.listarMinutas();
-//                        } else {
-//                            swal({
-//                                title: "No ejecutó",
-//                                text: "El registro no fue actualizado exitosamente",
-//                                icon: "error",
-//                                button: "cerrar"
-//                            });
-//                        }
-//                    }
-//                });
-//            };
+            cm.actualizar = function (nMinuta) {
+                var parametros = {
+                    
+                    proceso: 'actualizarMinutas',
+                    idVisita: cm.nminuta,
+                    identificacion: cm.identificacion,
+                    nombre: cm.nombre,
+                    destino: cm.Destino_select,
+                    tarjetaVehiculo: cm.tarjetavehiculo,
+                    autorizacion: cm.autorizacion,
+                    idTipoIngreso: cm.tipoingreso,
+                    ingreso: cm.ingreso,
+                    salida: cm.salida,
+                    observacion: cm.observacion,
+                    tipoPersona: cm.tipopersona
+                };
+                $http({
+                    method: 'POST',
+                    url: 'peticionesVisitas.jsp',
+                    params: parametros
+                }).then(function (res) {
+                    alert(nMinuta);
+                    if (res.data.ok === true) {
+                        if (res.data.actualizarMinuta === true) {
+                            swal({
+                                title: "Ejecutó",
+                                text: "El registro fue actualizado exitosamente",
+                                icon: "success",
+                                button: "cerrar"
+                            });
+                            cap.listarMinutas();
+                        } else {
+                            swal({
+                                title: "No ejecutó",
+                                text: "El registro no fue actualizado exitosamente",
+                                icon: "error",
+                                button: "cerrar"
+                            });
+                        }
+                    }
+                });
+            };
             cm.guardar = function () {
                 var parametros = {
                     proceso: 'guardarVisita',
@@ -428,43 +426,7 @@
                     }
                 });
             };
-//            cap.eliminar = function () {
-//                var parametros = {
-//                    proceso: 'eliminarMinuta',
-//                    nMinuta: cap.nMinuta
-//                };
-//                $http({
-//                    method: 'POST',
-//                    url: 'peticionesMinuta.jsp',
-//                    params: parametros
-//                }).then(function (res) {
-//                    if (res.data.ok === true) {
-//                        if (res.data.eliminarMinuta === true) {
-//                            swal({
-//                                title: "Ejecutó",
-//                                text: "El registro fue eliminado exitosamente",
-//                                icon: "success",
-//                                button: "cerrar"
-//                            });
-//                            cap.listarMinuta();
-//                        } else {
-//                            swal({
-//                                title: "No ejecutó",
-//                                text: "El registro no fue eliminado exitosamente",
-//                                icon: "error",
-//                                button: "cerrar"
-//                            });
-//                        }
-//                    } else {
-//                        swal({
-//                            title: "Falló",
-//                            text: res.data.errorMsg,
-//                            icon: "error",
-//                            button: "cerrar"
-//                        });
-//                    }
-//                });
-//            };
+//            
         };
     </script>
 </html>

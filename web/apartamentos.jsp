@@ -27,16 +27,7 @@
                     <div class="row">
                         <div class="col-4">
                             <label>Torre *</label>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">Acciones</button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="#">Buscar</a>
-                                        <a class="dropdown-item" href="#">Limpiar</a>
-                                    </div>
-                                </div>
-                                <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Torre" ng-model="cap.torre">
-                            </div>
+                            <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Torre" ng-model="cap.torre">
                         </div>
                         <div class="col-3">
                             <label>Piso *</label>
@@ -44,7 +35,16 @@
                         </div>
                         <div class="col-3">
                             <label>Número de Apartamento *</label>
-                            <input type="number" class="form-control" placeholder="# Apartamento" ng-model="cap.napartamento">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">Acciones</button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="#" ng-click="cap.editar(cap.napartamento)">Buscar</a>
+                                        <a class="dropdown-item" href="#" ng-click="cap.napartamento=null">Limpiar</a>
+                                    </div>
+                                </div>
+                                <input type="number" class="form-control" placeholder="# Apartamento" ng-model="cap.napartamento">
+                            </div>
                         </div>
                     </div>
 
@@ -83,9 +83,6 @@
                             <input type="number" class="form-control" aria-label="Text input with dropdown button" placeholder="Citófono" ng-model="cap.datafono">
                         </div>
                         <div class="col-2">
-                            <label><br></label>
-                        </div>
-                        <div class="col-2">
                             <br>
                             <button type="button" class="btn btn-success" ng-click="cap.guardar()">Guardar</button>
                         </div>
@@ -96,6 +93,10 @@
                         <div class="col-2">
                             <br>
                             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#eliminarModal">Eliminar</button>
+                        </div>
+                        <div class="col-2">
+                            <br>
+                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#limpiarModal">Limpiar</button>
                         </div>
                     </div>
                 </div>
@@ -162,6 +163,25 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
                             <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="cap.eliminar()">SI</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="limpiarModal" tabindex="-1" aria-labelledby="limpiarLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="limpiarModalLabel">¿Seguro desea limpiar todos los campos?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Toda el formulario será limpiado
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="cap.limpiarCampos()">SI</button>
                         </div>
                     </div>
                 </div>
@@ -356,7 +376,16 @@
                     }
                 });
             };
-        }
-        ;
+            cap.limpiarCampos = function(){
+                cap.nApto = null;
+                cap.torre = null;
+                cap.piso = null;
+                cap.propietario = null;
+                cap.residentes = null;
+                cap.napartamento = null;
+                cap.datafono = null;
+            };
+        };
+        
     </script>
 </html>
