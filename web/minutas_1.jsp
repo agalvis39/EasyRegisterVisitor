@@ -96,7 +96,7 @@
                 <div class="col-3">
                     
                     <label>Tipo de Ingreso</label>
-                    <select onchange="carg(this)" class="w-50 form-control" ng-model="cm.tipoingreso" ng-init="cm.listarTipoIngreso()" name="id_TipoIngreso" id="id_TipoIngreso">
+                    <select onchange="carg(this, null)" class="w-50 form-control" ng-model="cm.tipoingreso" ng-init="cm.listarTipoIngreso()" name="id_TipoIngreso" id="id_TipoIngreso">
                         <option ng-repeat="c in cm.listaTipoIngreso" value="{{c.idTipoIngreso}}">{{c.tipoIngreso_1}}</option>
                     </select>
                     <br>
@@ -195,14 +195,27 @@
     <script>
         var input = document.getElementById('input');
 
-        function carg(elemento) {
-          d = elemento.value;
-
+        function carg(elemento, elemento2) {
+          if (elemento2 === null){
+              d = elemento.value;
+          
           if(d === "1"){
             input.disabled = true;
           }else{
             input.disabled = false;
           }
+          }else{
+            e = elemento2;
+          alert(e);
+          if(e === "1"){
+            input.disabled = true;
+          }else{
+            input.disabled = false;
+          }  
+          }
+          
+        
+          
         }
     </script>
     <script>
@@ -306,7 +319,7 @@
                     url: 'peticionesVisitas.jsp',
                     params: parametros
                 }).then(function (res) {
-                    alert(JSON.stringify(res.data.Visita));
+//                    alert(JSON.stringify(res.data.Visita));
                     cm.nminuta = res.data.Visita.idVisita;
                     cm.identificacion = res.data.Visita.identificacion;
                     cm.nombre = res.data.Visita.nombre;
@@ -318,6 +331,10 @@
                     cm.salida = res.data.Visita.salida;
                     cm.observacion = res.data.Visita.observacion;
                     cm.tipopersona = res.data.Visita.tipoPersona.toString();
+                    
+                    carg(null, cm.tipoingreso);
+                    
+                    
                 });
             };
             
@@ -376,6 +393,7 @@
                     salida: cm.salida,
                     observacion: cm.observacion,
                     tipoPersona: cm.tipopersona
+                    
                 };
                 $http({
                     method: 'POST',
