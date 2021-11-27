@@ -42,7 +42,7 @@
             int destino = Integer.parseInt(request.getParameter("destino"));
             int idTipoIngreso = Integer.parseInt(request.getParameter("idTipoIngreso"));
             String tarjetaVehiculo = request.getParameter("tarjetaVehiculo");
-            String autorizacion = request.getParameter("autorizacion");
+            int autorizacion = Integer.parseInt(request.getParameter("autorizacion"));
             String ingreso = request.getParameter("ingreso");
             String salida =  request.getParameter("salida");
             String observacion = request.getParameter("observacion");
@@ -54,7 +54,7 @@
             vis.setDestino(destino);
             vis.setIdTipoIngreso(idTipoIngreso);
             vis.setTarjetaVehiculo(tarjetaVehiculo);
-//            vis.setAutorizacion(autorizacion);
+            vis.setIdAutorizacion(autorizacion);
             vis.setIngreso(ingreso);
             vis.setSalida(salida);
             vis.setObservacion(observacion);

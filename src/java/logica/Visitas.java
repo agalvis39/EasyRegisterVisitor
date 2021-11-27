@@ -233,7 +233,7 @@ public class Visitas {
                 this.ingreso = rs.getString("ingreso");
                 this.salida = rs.getString("salida");
                 this.observacion = rs.getString("observacion");
-                this.tipoPersona = rs.getInt("tipoPresona");
+                this.tipoPersona = rs.getInt("tipoPersona");
             } else {
                 return null;
             }
@@ -248,8 +248,8 @@ public class Visitas {
     public boolean guardarVisita() {
         ConexionBD conexion = new ConexionBD();
         String sql = "INSERT INTO visitas\n"
-                + "(identificacion, nombre, destino, tipoIngreso, tarjetaVehiculo, autorizacion, ingreso, salida, observacion, tipoPersona)\n"
-                + "VALUES(" + this.identificacion + ", '" + this.nombre + "', " + this.destino + ", " + this.idTipoIngreso + ", '" + this.tarjetaVehiculo + "', '" + this.autorizacion + "', '" + this.ingreso + "', '" + this.salida + "', '" + this.observacion + "', " + this.tipoPersona + ");";
+                + "(identificacion, nombre, destino, tipoIngreso, tarjetaVehiculo, idAutorizacion, ingreso, salida, observacion, tipoPersona)\n"
+                + "VALUES(" + this.identificacion + ", '" + this.nombre + "', " + this.destino + ", " + this.idTipoIngreso + ", '" + this.tarjetaVehiculo + "', " + this.idAutorizacion + ", '" + this.ingreso + "', '" + this.salida + "', '" + this.observacion + "', " + this.tipoPersona + ");";
         if (conexion.setAutoCommitBD(false)) {
             if (conexion.insertarBD(sql)) {
                 conexion.commitBD();

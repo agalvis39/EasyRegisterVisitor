@@ -27,11 +27,11 @@
             <div class="form-row">
                 <div class="col-2">
                     <label>Ingreso</label>
-                    <input type="datetime-local" class="form-control">
+                    <input type="datetime-local" class="form-control" ng-model="cm.ingreso">
                 </div>
                 <div class="col-2">
                     <label>Salida</label>
-                    <input type="datetime-local" class="form-control">
+                    <input type="datetime-local" class="form-control" ng-model="cm.salida">
                 </div>
             </div>
             <br>    
@@ -46,7 +46,7 @@
                                 <a class="dropdown-item" href="#">Limpiar</a>
                             </div>
                         </div>
-                        <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Identificación" ng-model="cap.torre">
+                        <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Identificación" ng-model="cm.identificacion">
                     </div>
                     <label>Nombre</label>
                     <div class="w-75 input-group mb-3">
@@ -57,79 +57,57 @@
                                 <a class="dropdown-item" href="#">Limpiar</a>
                             </div>
                         </div>
-                        <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Nombre" ng-model="cap.torre">
+                        <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Nombre" ng-model="cm.nombre">
                     </div>
                     <div class="form-row">
                         <div class="col-3">
                             <div>
                                 <br>
-                                <button type="button" class="btn btn-success" ng-click="cap.guardar()">Guardar</button>
+                                <button type="button" class="btn btn-success" ng-click="cm.guardar()">Guardar</button>
                             </div>
                         </div>
                         <div class="col-3">
                             <div>
                                 <br>
-                                <button type="button" class="btn btn-warning" ng-click="cap.actualizar(cap.nApto, cap.napartamento)">Actualizar</button>                        
+                                <button type="button" class="btn btn-warning" ng-click="cm.actualizar(cm.nApto, cm.napartamento)">Actualizar</button>                        
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-3">
                    
-<!--                    <div class="dropdown form-row">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
-                            Perfil
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Propietario</a>
-                            <a class="dropdown-item" href="#">Residente</a>
-                            <a class="dropdown-item" href="#">Persona de mantenimiento</a>
-                            <a class="dropdown-item" href="#">Contratista</a>
-                            <a class="dropdown-item" href="#">Visitante</a>
-                        </div>
-                    </div>-->
+
                     <label>Perfil</label>
-                    <select class="w-50 form-control" ng-init="cm.listarTiposPersona()">
+                    <select class="w-50 form-control" ng-model="cm.tipopersona" ng-init="cm.listarTiposPersona()">
                         <option ng-repeat="p in cm.Perfiles" value="{{p.idPersona}}">{{p.persona}}</option>
                     </select>
                     <br>
                     <label>Destino</label>
-                    <select class="w-50 form-control"  ng-init="cm.listarApartamentos()">
+                    <select class="w-50 form-control" ng-model="cm.Destino_select" ng-init="cm.listarApartamentos()">
                         <option ng-repeat="a in cm.Apartamentos" value="{{a.nApartamento}}">{{a.nApartamento}}</option>
                     </select>
                     
                     <br>
                     
                     <br>
-<!--                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
-                            Autorización
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Autorizado</a>
-                            <a class="dropdown-item" href="#">No Autorizado</a>
-                            <a class="dropdown-item" href="#">Verificado</a>
-                            <a class="dropdown-item" href="#">No Verificado</a>
-                        </div>
-                    </div>-->
-                    
+                
                    
                 </div>
                 <div class="col-3">
                     
                     <label>Tipo de Ingreso</label>
-                    <select class="w-50 form-control" ng-model="cm.tipoDeIngreso" ng-init="cm.listarTipoIngreso()">
+                    <select onchange="carg(this)" class="w-50 form-control" ng-model="cm.tipoingreso" ng-init="cm.listarTipoIngreso()" name="id_TipoIngreso" id="id_TipoIngreso">
                         <option ng-repeat="c in cm.listaTipoIngreso" value="{{c.idTipoIngreso}}">{{c.tipoIngreso_1}}</option>
                     </select>
                     <br>
                     
                     <div class="form-row">
                         <div class="col-6"><label>Indique matrícula del vehículo si aplica: </label>
-                        <input type="text" class="form-control" placeholder="Matrícula" disabled=""></div>
+                            <input id="input" type="text" class="form-control" placeholder="Matrícula" disabled="" ng-model="cm.tarjetavehiculo"></div>
                     </div>
                     <br>
                     <label>Autorización</label>
-                    <select class="w-50 form-control"  ng-init="cm.listarAutorizacion()">
+                    <select class="w-50 form-control" ng-model="cm.autorizacion" ng-init="cm.listarAutorizacion()">
                         <option ng-repeat="at in cm.ListaAutorizacion" value="{{at.idAutorizacion}}">{{at.Autorizacion}}</option>
                     </select>
 
@@ -137,7 +115,7 @@
                 <div class="col-3">
 
                     <br>
-                    <textarea class="form-control" placeholder="Observaciones" rows="6" ></textarea>
+                    <textarea class="form-control" placeholder="Observaciones" rows="6" ng-model="cm.observacion"></textarea>
                     <br>
                 </div>
                 
@@ -176,17 +154,15 @@
                                 <td>{{ap.ingreso}}</td>
                                 <td>{{ap.salida}}</td>
                                 <td>
-                                    <textarea class="form-control" rows="6" disabled="">{{ap.observaciones}}</textarea>
+                                    <textarea class="form-control" rows="6" disabled="">{{ap.observacion}}</textarea>
                                 </td>
                                 
                                 <td>
                                     <div class="row">
                                         <div class="col6 mr-3">
-                                            <button type="button" class="btn btn-info" ng-click="cap.editar(ap.nApartamento)">Editar</button>
+                                            <button type="button" class="btn btn-info" ng-click="cm.editar(ap.idVisita)">Editar</button>
                                         </div>
-                                        <!--                                        <div class="col6">
-                                                                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#verMasModal" >Ver mas</button>
-                                                                                </div>-->
+                                       
                                     </div>
                                 </td>
                             </tr>
@@ -216,6 +192,19 @@
             </div>-->
         </div>
     </body>
+    <script>
+        var input = document.getElementById('input');
+
+        function carg(elemento) {
+          d = elemento.value;
+
+          if(d === "1"){
+            input.disabled = true;
+          }else{
+            input.disabled = false;
+          }
+        }
+    </script>
     <script>
         var app = angular.module('minutas_1', []);
         app.controller('consultarMinutas', ['$http', controladorMinutas]);
@@ -307,41 +296,31 @@
 //                    alert(JSON.stringify(cm.ListaAutorizacion));
                 });
             };
-//            cap.traerDireccion = function () {
-//                var parametros = {
-//                    proceso: 'listarVisitantes'
-//                };
-//                $http({
-//                    method: 'POST',
-//                    url: 'peticionesDireccion.jsp',
-//                    params: parametros
-//                }).then(function (res) {
-//                    cap.direccion_1 = res.data.Visitantes.direccion;
-//                });
-//            };
-//            cap.editar = function (nMinuta) {
-//                var parametros = {
-//                    proceso: 'consultarIndividualMinuta',
-//                    nApartamento: nMinuta
-//                };
-//                $http({
-//                    method: 'POST',
-//                    url: 'peticionesVisitas.jsp',
-//                    params: parametros
-//                }).then(function (res) {
-//                    alert(JSON.stringify(res.data.Minuta));
-//                    cap.nminuta = res.data.Minuta.nMinuta;
-//                    cap.identificacion = res.data.Minuta.identificacion;
-//                    cap.nombre = res.data.Minuta.nombre;
-//                    cap.destino = res.data.Minuta.destino;
-//                    cap.tarjetavehiculo = res.data.Minuta.tarjetavehiculo;
-//                    cap.autorizacion = res.data.Minuta.autorizacion;
-//                    cap.ingreso = res.data.Minuta.ingreso;
-//                    cap.salida = res.data.Minuta.salida;
-//                    cap.observacion = res.data.Minuta.observacion;
-//                    cap.tipopersona = res.data.Minuta.tipopersona;
-//                });
-//            };
+            cm.editar = function (nMinuta) {
+                var parametros = {
+                    proceso: 'consultarUnaVisita',
+                    idVisita: nMinuta
+                };
+                $http({
+                    method: 'POST',
+                    url: 'peticionesVisitas.jsp',
+                    params: parametros
+                }).then(function (res) {
+                    alert(JSON.stringify(res.data.Visita));
+                    cm.nminuta = res.data.Visita.idVisita;
+                    cm.identificacion = res.data.Visita.identificacion;
+                    cm.nombre = res.data.Visita.nombre;
+                    cm.Destino_select = res.data.Visita.destino.toString();
+                    cm.tipoingreso = res.data.Visita.idTipoIngreso.toString();
+                    cm.tarjetavehiculo = res.data.Visita.tarjetaVehiculo;
+                    cm.autorizacion = res.data.Visita.idAutorizacion.toString();
+                    cm.ingreso = res.data.Visita.ingreso;
+                    cm.salida = res.data.Visita.salida;
+                    cm.observacion = res.data.Visita.observacion;
+                    cm.tipopersona = res.data.Visita.tipoPersona.toString();
+                });
+            };
+            
 //            cap.actualizar = function (nMinuta) {
 //                var parametros = {
 //
@@ -383,53 +362,54 @@
 //                    }
 //                });
 //            };
-//            cap.guardar = function () {
-//                var parametros = {
-//                    proceso: 'guardarMinutas',
-//                    nMinuta: nMinuta,
-//                    identificacion: cap.identificacion,
-//                    nombre: cap.nombre,
-//                    destino: cap.destino,
-//                    tarjetavehiculo: cap.tarjetavehiculo,
-//                    autorizacion: cap.autorizacion + " identificacion " + cap.identificacion + " nombre " + cap.nombre + " destino " + cap.destino,
-//                    ingreso: cap.ingreso,
-//                    salida: cap.salida,
-//                    observacion: cap.observacion,
-//                    tipopersona: cap.tipopersona
-//                };
-//                $http({
-//                    method: 'POST',
-//                    url: 'peticionesVisitas.jsp',
-//                    params: parametros
-//                }).then(function (res) {
-//                    if (res.data.ok === true) {
-//                        if (res.data.guardarMinuta === true) {
-//                            swal({
-//                                title: "Guardó",
-//                                text: "El registro fue guardado exitosamente",
-//                                icon: "success",
-//                                button: "cerrar"
-//                            });
-//                            cap.listarMinutas();
-//                        } else {
-//                            swal({
-//                                title: "No guardó",
-//                                text: "El registro no fue guardado exitosamente",
-//                                icon: "error",
-//                                button: "cerrar"
-//                            });
-//
-//                        }
-//                    } else {
-//                        swal({
-//                            title: "Falló",
-//                            text: res.data.errorMsg,
-//                            icon: "error",
-//                            button: "cerrar"
-//                        });
-//                    }
-//                });
-//            };
+            cm.guardar = function () {
+                var parametros = {
+                    proceso: 'guardarVisita',
+                    
+                    identificacion: cm.identificacion,
+                    nombre: cm.nombre,
+                    destino: cm.Destino_select,
+                    tarjetaVehiculo: cm.tarjetavehiculo,
+                    autorizacion: cm.autorizacion,
+                    idTipoIngreso: cm.tipoingreso,
+                    ingreso: cm.ingreso,
+                    salida: cm.salida,
+                    observacion: cm.observacion,
+                    tipoPersona: cm.tipopersona
+                };
+                $http({
+                    method: 'POST',
+                    url: 'peticionesVisitas.jsp',
+                    params: parametros
+                }).then(function (res) {
+                    if (res.data.ok === true) {
+                        if (res.data.guardarVisita === true) {
+                            swal({
+                                title: "Guardó",
+                                text: "El registro fue guardado exitosamente",
+                                icon: "success",
+                                button: "cerrar"
+                            });
+                            cm.listarMinutas()();
+                        } else {
+                            swal({
+                                title: "No guardó",
+                                text: "El registro no fue guardado exitosamente",
+                                icon: "error",
+                                button: "cerrar"
+                            });
+
+                        }
+                    } else {
+                        swal({
+                            title: "Falló",
+                            text: res.data.errorMsg,
+                            icon: "error",
+                            button: "cerrar"
+                        });
+                    }
+                });
+            };
 //            cap.eliminar = function () {
 //                var parametros = {
 //                    proceso: 'eliminarMinuta',
