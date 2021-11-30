@@ -207,25 +207,41 @@
         app.controller('consultarMinutas', ['$http', controladorMinutas]);
         function controladorMinutas($http) {
             var cm = this;
-//            validar = function (tipoDeValidacion) {
-//                var codigo = ac.codigo ? true : false;
-//                var nombre = ac.nombre ? true : false;
-//                var nacionalidad = ac.nacionalidad ? true : false;
-//                if (tipoDeValidacion === 'todosLosCampos') {
-//                    if (codigo && nombre && nacionalidad) {
-//                        return true;
-//                    } else {
-//                        return false;
-//                    }
-//                } else if (tipoDeValidacion === 'soloCodigo') {
-//                    if (codigo) {
-//                        return true;
-//                    } else {
-//                        return false;
-//                    }
-//                } else {
-//                    return false;
-//                }
+            validar = function (tipoDeValidacion) {
+                var identificacion = cm.identificacion ? true : false;
+                var nombre = cm.nombre ? true : false;
+                var destino = cm.Destino_select ? true : false;
+                var tipo_ingreso = cm.tipoingreso ? true : false;
+                var matricula = cm.tarjetavehiculo ? true : false;
+                var autorizacionVar = cm.autorizacion ? true : false;
+                var ingreso = cm.ingreso ? true : false;
+                var salida = cm.salida ? true : false;
+                var observacionVar = cm.observacion ? true : false;
+                var tipo_persona = cm.tipopersona ? true : false;
+                
+                
+                if (tipoDeValidacion === 'MetodoActualizar') {
+                    if (identificacion && nombre && destino &&
+                        tipo_ingreso && matricula && 
+                        autorizacionVar && ingreso && salida &&
+                        observacionVar && tipo_persona) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else if (tipoDeValidacion === 'MetodoGuardar') {
+                    if (identificacion && nombre && destino &&
+                        tipo_ingreso && 
+                        autorizacionVar && ingreso &&
+                        tipo_persona) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            };
             cm.listarMinutas = function () {
                 var parametros = {
                     proceso: 'listarVisitas'
@@ -235,7 +251,6 @@
                     url: 'peticionesVisitas.jsp',
                     params: parametros
                 }).then(function (res) {
-//                    alert(JSON.stringify(res));
                     cm.minutas = res.data.Visitas;
                 });
             };
@@ -262,7 +277,6 @@
                 }).then(function (res) {
                     
                     cm.Perfiles = res.data.TiposDePersona;
-//                    alert(JSON.stringify(cm.Perfiles));
                 });
             };
             cm.listarApartamentos = function () {
@@ -276,7 +290,6 @@
                 }).then(function (res) {
                     
                     cm.Apartamentos = res.data.Apartamentos;
-//                    alert(JSON.stringify(cm.Apartamentos));
                 });
             };
             cm.listarAutorizacion = function () {
@@ -290,7 +303,6 @@
                 }).then(function (res) {
                     
                     cm.ListaAutorizacion = res.data.ListaAutorizacion;
-//                    alert(JSON.stringify(cm.ListaAutorizacion));
                 });
             };
             cm.editar = function (nMinuta) {
@@ -303,7 +315,6 @@
                     url: 'peticionesVisitas.jsp',
                     params: parametros
                 }).then(function (res) {
-//                    alert(JSON.stringify(res.data.Visita));
                     cm.nminuta = res.data.Visita.idVisita;
                     cm.identificacion = res.data.Visita.identificacion;
                     cm.nombre = res.data.Visita.nombre;
@@ -336,95 +347,114 @@
             };
             
             cm.actualizar = function (nMinuta) {
-                var parametros = {
-                    
-                    proceso: 'actualizarMinutas',
-                    idVisita: cm.nminuta,
-                    identificacion: cm.identificacion,
-                    nombre: cm.nombre,
-                    destino: cm.Destino_select,
-                    tarjetaVehiculo: cm.tarjetavehiculo,
-                    autorizacion: cm.autorizacion,
-                    idTipoIngreso: cm.tipoingreso,
-                    ingreso: cm.ingreso,
-                    salida: cm.salida,
-                    observacion: cm.observacion,
-                    tipoPersona: cm.tipopersona
-                };
-                $http({
-                    method: 'POST',
-                    url: 'peticionesVisitas.jsp',
-                    params: parametros
-                }).then(function (res) {
-                    alert(nMinuta);
-                    if (res.data.ok === true) {
-                        if (res.data.actualizarMinuta === true) {
-                            swal({
-                                title: "Ejecutó",
-                                text: "El registro fue actualizado exitosamente",
-                                icon: "success",
-                                button: "cerrar"
-                            });
-                            cap.listarMinutas();
-                        } else {
-                            swal({
-                                title: "No ejecutó",
-                                text: "El registro no fue actualizado exitosamente",
-                                icon: "error",
-                                button: "cerrar"
-                            });
-                        }
-                    }
-                });
-            };
-            cm.guardar = function () {
-                var parametros = {
-                    proceso: 'guardarVisita',
-                    
-                    identificacion: cm.identificacion,
-                    nombre: cm.nombre,
-                    destino: cm.Destino_select,
-                    tarjetaVehiculo: cm.tarjetavehiculo,
-                    autorizacion: cm.autorizacion,
-                    idTipoIngreso: cm.tipoingreso,
-                    ingreso: cm.ingreso,
-                    salida: cm.salida,
-                    observacion: cm.observacion,
-                    tipoPersona: cm.tipopersona
-                    
-                };
-                $http({
-                    method: 'POST',
-                    url: 'peticionesVisitas.jsp',
-                    params: parametros
-                }).then(function (res) {
-                    if (res.data.ok === true) {
-                        if (res.data.guardarVisita === true) {
-                            swal({
-                                title: "Guardó",
-                                text: "El registro fue guardado exitosamente",
-                                icon: "success",
-                                button: "cerrar"
-                            });
-                            cm.listarMinutas()();
-                        } else {
-                            swal({
-                                title: "No guardó",
-                                text: "El registro no fue guardado exitosamente",
-                                icon: "error",
-                                button: "cerrar"
-                            });
+                if (validar('MetodoActualizar')) {
+                    var parametros = {
 
+                        proceso: 'actualizarMinutas',
+                        idVisita: cm.nminuta,
+                        identificacion: cm.identificacion,
+                        nombre: cm.nombre,
+                        destino: cm.Destino_select,
+                        tarjetaVehiculo: cm.tarjetavehiculo,
+                        autorizacion: cm.autorizacion,
+                        idTipoIngreso: cm.tipoingreso,
+                        ingreso: cm.ingreso,
+                        salida: cm.salida,
+                        observacion: cm.observacion,
+                        tipoPersona: cm.tipopersona
+                    };
+                    $http({
+                        method: 'POST',
+                        url: 'peticionesVisitas.jsp',
+                        params: parametros
+                    }).then(function (res) {
+                        alert(nMinuta);
+                        if (res.data.ok === true) {
+                            if (res.data.actualizarMinuta === true) {
+                                swal({
+                                    title: "Ejecutó",
+                                    text: "El registro fue actualizado exitosamente",
+                                    icon: "success",
+                                    button: "cerrar"
+                                });
+                                cap.listarMinutas();
+                            } else {
+                                swal({
+                                    title: "No ejecutó",
+                                    text: "El registro no fue actualizado exitosamente",
+                                    icon: "error",
+                                    button: "cerrar"
+                                });
+                            }
                         }
-                    } else {
+                    });
+                    
+                } else {
                         swal({
-                            title: "Falló",
-                            text: res.data.errorMsg,
-                            icon: "error",
+                            title: "Verificar Campos",
+                            text: "todos los campos son obligatorios",
+                            icon: "warning",
                             button: "cerrar"
                         });
-                    }
-                });
+                }
+            };
+            cm.guardar = function () {
+                if (validar('MetodoGuardar')) {
+                    var parametros = {
+                        proceso: 'guardarVisita',
+
+                        identificacion: cm.identificacion,
+                        nombre: cm.nombre,
+                        destino: cm.Destino_select,
+                        tarjetaVehiculo: cm.tarjetavehiculo,
+                        autorizacion: cm.autorizacion,
+                        idTipoIngreso: cm.tipoingreso,
+                        ingreso: cm.ingreso,
+                        salida: cm.salida,
+                        observacion: cm.observacion,
+                        tipoPersona: cm.tipopersona
+
+                    };
+                    $http({
+                        method: 'POST',
+                        url: 'peticionesVisitas.jsp',
+                        params: parametros
+                    }).then(function (res) {
+                        if (res.data.ok === true) {
+                            if (res.data.guardarVisita === true) {
+                                swal({
+                                    title: "Guardó",
+                                    text: "El registro fue guardado exitosamente",
+                                    icon: "success",
+                                    button: "cerrar"
+                                });
+                                cm.listarMinutas()();
+                            } else {
+                                swal({
+                                    title: "No guardó",
+                                    text: "El registro no fue guardado exitosamente",
+                                    icon: "error",
+                                    button: "cerrar"
+                                });
+
+                            }
+                        } else {
+                            swal({
+                                title: "Falló",
+                                text: res.data.errorMsg,
+                                icon: "error",
+                                button: "cerrar"
+                            });
+                        }
+                    });
+                } else {
+                        swal({
+                            title: "Verificar Campos",
+                            text: "Identificación, Nombre, Destino, Autorización, Perfil, Ingreso, Tipo de Ingreso\nObligatorios",
+                            icon: "warning",
+                            button: "cerrar"
+                        });
+                }
             };
 //            
         };
