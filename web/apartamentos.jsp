@@ -193,25 +193,25 @@
         app.controller('consultarApartamentos', ['$http', controladorApartamentos]);
         function controladorApartamentos($http) {
             var cap = this;
-//            validar = function (tipoDeValidacion) {
-//                var codigo = ac.codigo ? true : false;
-//                var nombre = ac.nombre ? true : false;
-//                var nacionalidad = ac.nacionalidad ? true : false;
-//                if (tipoDeValidacion === 'todosLosCampos') {
-//                    if (codigo && nombre && nacionalidad) {
-//                        return true;
-//                    } else {
-//                        return false;
-//                    }
-//                } else if (tipoDeValidacion === 'soloCodigo') {
-//                    if (codigo) {
-//                        return true;
-//                    } else {
-//                        return false;
-//                    }
-//                } else {
-//                    return false;
-//                }
+            validar = function (tipoDeValidacion) {
+//                var apartamento = cap.nApto ? true : false;
+                var torre = cap.torre ? true : false;
+                var piso = cap.piso ? true : false;
+                var propietario = cap.propietario ? true : false;
+                var residentes = cap.residentes ? true : false;
+                var napartamento = cap.napartamento ? true : false;
+//                var datafono = cap.datafono ? true : false;
+                if (tipoDeValidacion === 'Actualizar') {
+                    if (torre && piso && propietario && residentes
+                        && napartamento) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            };
             cap.listarAptos = function () {
                 var parametros = {
                     proceso: 'listarApartamento'
@@ -257,87 +257,105 @@
                 });
             };
             cap.actualizar = function (nApto, nuevoApto) {
-                var parametros = {
+                if (validar('Actualizar')) {
+                    var parametros = {
 
-                    proceso: 'actualizarApartamento',
-                    nApartamento: nuevoApto,
-                    Apto: nApto,        
-                    residente: cap.residentes,
-                    propietario: cap.propietario,
-                    torre: cap.torre,
-                    piso: cap.piso,
-                    direccion: cap.direccion_1 + " torre " + cap.torre + " piso " + cap.piso + " #Apto " + cap.napartamento,
-                    datafono: cap.datafono
-                };
-                $http({
-                    method: 'POST',
-                    url: 'peticionesApartamento.jsp',
-                    params: parametros
-                }).then(function (res) {
-//                    alert(cap.nApto);
-                    if (res.data.ok === true) {
-                        if (res.data.actualizarApartamento === true) {
-                            swal({
-                                title: "Ejecutó",
-                                text: "El registro fue actualizado exitosamente",
-                                icon: "success",
-                                button: "cerrar"
-                            });
-                            cap.listarAptos();
-                        } else {
-                            swal({
-                                title: "No ejecutó",
-                                text: "El registro no fue actualizado exitosamente",
-                                icon: "error",
-                                button: "cerrar"
-                            });
+                        proceso: 'actualizarApartamento',
+                        nApartamento: nuevoApto,
+                        Apto: nApto,        
+                        residente: cap.residentes,
+                        propietario: cap.propietario,
+                        torre: cap.torre,
+                        piso: cap.piso,
+                        direccion: cap.direccion_1 + " torre " + cap.torre + " piso " + cap.piso + " #Apto " + cap.napartamento,
+                        datafono: cap.datafono
+                    };
+                    $http({
+                        method: 'POST',
+                        url: 'peticionesApartamento.jsp',
+                        params: parametros
+                    }).then(function (res) {
+    //                    alert(cap.nApto);
+                        if (res.data.ok === true) {
+                            if (res.data.actualizarApartamento === true) {
+                                swal({
+                                    title: "Ejecutó",
+                                    text: "El registro fue actualizado exitosamente",
+                                    icon: "success",
+                                    button: "cerrar"
+                                });
+                                cap.listarAptos();
+                            } else {
+                                swal({
+                                    title: "No ejecutó",
+                                    text: "El registro no fue actualizado exitosamente",
+                                    icon: "error",
+                                    button: "cerrar"
+                                });
+                            }
                         }
-                    }
-                });
-            };
-            cap.guardar = function () {
-                var parametros = {
-                    proceso: 'guardarApartamento',
-                    nApartamento: cap.napartamento,
-                    residente: cap.residentes,
-                    propietario: cap.propietario,
-                    torre: cap.torre,
-                    piso: cap.piso,
-                    direccion: cap.direccion_1 + " torre " + cap.torre + " piso " + cap.piso + " #Apto " + cap.napartamento,
-                    datafono: cap.datafono
-                };
-                $http({
-                    method: 'POST',
-                    url: 'peticionesApartamento.jsp',
-                    params: parametros
-                }).then(function (res) {
-                    if (res.data.ok === true) {
-                        if (res.data.guardarApartamento === true) {
-                            swal({
-                                title: "Guardó",
-                                text: "El registro fue guardado exitosamente",
-                                icon: "success",
-                                button: "cerrar"
-                            });
-                            cap.listarAptos();
-                        } else {
-                            swal({
-                                title: "No guardó",
-                                text: "El registro no fue guardado exitosamente",
-                                icon: "error",
-                                button: "cerrar"
-                            });
-
-                        }
-                    } else {
+                    });
+                }else {
                         swal({
-                            title: "Falló",
-                            text: res.data.errorMsg,
-                            icon: "error",
+                            title: "Verificar Campos",
+                            text: "Todos los campos son obligatorios, excepto 'Citófono'",
+                            icon: "warning",
                             button: "cerrar"
                         });
-                    }
-                });
+                }
+            };
+            cap.guardar = function () {
+                if (validar('Actualizar')) {
+                    var parametros = {
+                        proceso: 'guardarApartamento',
+                        nApartamento: cap.napartamento,
+                        residente: cap.residentes,
+                        propietario: cap.propietario,
+                        torre: cap.torre,
+                        piso: cap.piso,
+                        direccion: cap.direccion_1 + " torre " + cap.torre + " piso " + cap.piso + " #Apto " + cap.napartamento,
+                        datafono: cap.datafono
+                    };
+                    $http({
+                        method: 'POST',
+                        url: 'peticionesApartamento.jsp',
+                        params: parametros
+                    }).then(function (res) {
+                        if (res.data.ok === true) {
+                            if (res.data.guardarApartamento === true) {
+                                swal({
+                                    title: "Guardó",
+                                    text: "El registro fue guardado exitosamente",
+                                    icon: "success",
+                                    button: "cerrar"
+                                });
+                                cap.listarAptos();
+                            } else {
+                                swal({
+                                    title: "No guardó",
+                                    text: "El registro no fue guardado exitosamente",
+                                    icon: "error",
+                                    button: "cerrar"
+                                });
+
+                            }
+                        } else {
+                            swal({
+                                title: "Falló",
+                                text: res.data.errorMsg,
+                                icon: "error",
+                                button: "cerrar"
+                            });
+                        }
+                    });
+                }else {
+                        swal({
+                            title: "Verificar Campos",
+                            text: "Todos los campos son obligatorios, excepto 'Citófono'",
+                            icon: "warning",
+                            button: "cerrar"
+                        });
+                }
             };
             cap.eliminar = function () {
                 var parametros = {
