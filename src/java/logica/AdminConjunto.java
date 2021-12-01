@@ -86,7 +86,7 @@ public class AdminConjunto{
                 ident.setIdentificacion(rs.getInt("identificacion"));
                 ident.setNombre(rs.getString("nombre"));
                 ident.setUsuario(rs.getString("usuario"));
-                ident.setContrasena(rs.getString("contrasena"));
+//                ident.setContrasena(rs.getString("contrasena"));
             }
         } catch (SQLException ex) {
             System.out.println("Error:" + ex.getMessage());
@@ -98,14 +98,11 @@ public class AdminConjunto{
 
     public AdminConjunto consultarAdminConjunto() {
         ConexionBD conexion = new ConexionBD();
-        String sql = "SELECT * FROM AdminConjunto WHERE identificacion=" + this.identificacion + ";";
+        String sql = "SELECT * FROM AdminConjunto WHERE usuario=" + this.usuario + ";";
         ResultSet rs = conexion.consultarBD(sql);
         try {
             if (rs.next()) {
-                this.identificacion = rs.getInt("identificacion");
-                this.nombre = rs.getString("nombre");
-                this.usuario = rs.getString("usuario");
-                this.contrasena = rs.getString("contrasena");
+                contrasena = "";
             } else {
                 return null;
             }

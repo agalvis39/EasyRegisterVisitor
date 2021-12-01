@@ -258,6 +258,8 @@
             };
             cap.actualizar = function (nApto, nuevoApto) {
                 if (validar('Actualizar')) {
+                    alert(nApto);
+                    alert(nuevoApto);
                     var parametros = {
 
                         proceso: 'actualizarApartamento',

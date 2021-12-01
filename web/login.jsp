@@ -22,33 +22,47 @@
                 <div class="col-3"></div>
                 <div class="col-3">
                     Registro de Usuario
+                    <br>
                     <div class="row">
                         <div class="col-12">
+                            <br>
                             <label>Identificación</label>
-                            <input type="text" class="form-control" ng-model="lc.identificacion">
+                            <input type="text" class="form-control" ng-model="lc.identificacion_reg">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <label>Nombre</label>
-                            <input type="text" class="form-control" ng-model="lc.nombre">
+                            <input type="text" class="form-control" ng-model="lc.nombre_reg">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <label>Nombre usuario</label>
-                            <input type="text" class="form-control" ng-model="lc.nombreDeUsuario">
+                            <input type="text" class="form-control" ng-model="lc.nombreDeUsuario_reg">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <label>Contraseña</label>
-                            <input type="password" class="form-control" ng-model="lc.contrasenna">
+                            <input type="password" class="form-control" ng-model="lc.contrasenna_reg">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <button type="button" class="btn btn-primary mt-2" ng-click="lc.iniciarSesion()">Registrase</button>
+<!--                            <label>Contraseña</label>
+                            <input type="password" class="form-control" ng-model="lc.contrasenna">-->
+                            <label>Perfil</label>
+                            <select class="w-75 form-control" ng-model="lc.tipoUsuario_reg">
+                                <option  value="1">Vigilante</option>
+                                <option  value="2">Administrador de Conjunto</option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <button type="button" class="btn btn-primary mt-2" ng-click="lc.guardarPerfil(lc.tipoUsuario_reg)">Registrarse</button>
                         </div>
                     </div>
                 </div>
@@ -56,19 +70,29 @@
                     Inicio de Sesión
                     <div class="row">
                         <div class="col-12">
+                            <br>
                             <label>Nombre usuario</label>
-                            <input type="text" class="form-control" ng-model="lc.nombreDeUsuario">
+                            <input type="text" class="form-control" ng-model="lc.nombreDeUsuario_int">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <label>Contraseña</label>
-                            <input type="password" class="form-control" ng-model="lc.contrasenna">
+                            <input type="password" class="form-control" ng-model="lc.contrasenna_int">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <button type="button" class="btn btn-primary mt-2" ng-click="lc.iniciarSesion()">Iniciar sesion</button>
+                            <label>Perfil</label>
+                            <select class="w-75 form-control" ng-model="lc.tipoUsuario_int" >
+                                <option  value="1">Vigilante</option>
+                                <option  value="2">Administrador de Conjunto</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <button type="button" class="btn btn-primary mt-2" ng-click="lc.iniciarSesion(lc.tipoUsuario_int)">Iniciar sesion</button>
                         </div>
                     </div>
                 </div>
@@ -80,20 +104,53 @@
             app.controller('loginController', ['$http', controladorLogin]);
             function controladorLogin($http) {
                 var lc = this;
-                lc.iniciarSesion = function () {
+                lc.guardarPerfil = function (perfil) {
                     var parametros = {
-                        proceso: 'iniciarSesion',
-                        nombreDeUsuario: lc.nombreDeUsuario,
-                        contrasenna: lc.contrasenna
+                        proceso: (perfil===1)? 'guardarVigilante':'guardarAdminConjunto',
+                        identificacion: lc.identificacion_reg,
+                        nombre: lc.nombre_reg,
+                        usuario: lc.nombreDeUsuario_reg,
+                        contrasena: lc.contrasenna_reg
                     };
                     $http({
+                        
                         method: 'POST',
-                        url: 'peticionesLogin.jsp',
-                        params: parametros
+                        params: parametros,
+                        url: (perfil===1)? 'peticionesVigilante.jsp':'peticionesAdminConjunto.jsp'
+                        
                     }).then(function (res) {
                         if (res.data.ok === true) {
-                            if (res.data.iniciarSesion === true) {
-                                window.location.href = "autores.jsp";
+//                            if (res.data.iniciarSesion === true) {
+//                                window.location.href = "autores.jsp";
+//                            } else {
+//                                alert('No puede iniciar sesion');
+//                            }
+                            alert('puede iniciar sesion');
+                        } else {
+                            alert(res.data.errorMsg);
+                        }
+                    });
+                };
+                lc.iniciarSesion = function (perfil) {
+                    (perfil==="1")? alert(perfil):(perfil==="2")? alert(perfil): alert("No ha escogido un perfil");
+                    var parametros = {
+                        proceso: (perfil==="1")? 'consultarUnVigilante': (perfil==="2")? 'consultarUnAdminConjunto':"null",
+                        usuario: lc.nombreDeUsuario_int,
+                        contrasena: lc.contrasenna_int
+                        
+                    };
+                    $http({
+                        
+                        method: 'POST',
+                        params: parametros,
+                        url: (perfil==="1")? 'peticionesVigilante.jsp': (perfil==="2")? 'peticionesAdminConjunto.jsp':" "
+                        
+                    }).then(function (res) {
+                        alert(lc.nombreDeUsuario_int);
+                        alert(lc.contrasenna_int);
+                        if (res.data.ok === true) {
+                            if (res.data.consultarUnVigilante === true  || res.data.consultarUnAdminConjunto === true) {
+                                window.location.href = "minutas_1.jsp";
                             } else {
                                 alert('No puede iniciar sesion');
                             }

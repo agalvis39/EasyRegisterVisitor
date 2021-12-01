@@ -82,16 +82,23 @@
             //, uso de request.getParameter("nombre parametro")
             //creación de objeto y llamado al metodo consultarIndividual
             int identificacion= Integer.parseInt(request.getParameter("identificacion"));
-            
-            try {
-                AdminConjunto obj =new AdminConjunto();
-                obj.setIdentificacion(identificacion);
-                obj.consultarAdminConjunto();
-                respuesta += "\"" + proceso + "\": true,\"AdminConjunto\":" + new Gson().toJson(obj);
-            } catch (Exception ex) {
-                respuesta += "\"" + proceso + "\": true,\"AdminConjunto\":null";
-                Logger.getLogger(AdminConjunto.class.getName()).log(Level.SEVERE, null, ex);
+            String contrasena = request.getParameter("contraseña");
+            AdminConjunto AC = new AdminConjunto();
+            AC.setIdentificacion(identificacion);
+            AC.setContrasena(contrasena);
+            AC.consultarAdminConjunto();
+            if (AC != null) {
+                session.setAttribute("usuario", AC);
+                respuesta += "\"" + proceso + "\": true";
+            } else {
+                session.invalidate();
+                respuesta += "\"" + proceso + "\": false";
             }
+
+        } else if (proceso.equals("cerrarSesion")) {
+            session.invalidate();
+            respuesta += "\"" + proceso + "\": true";
+        }
         } else if (proceso.equals("actualizarAdminConjunto")) {
             //creación de objeto y llamado al metodo actualizar
             int identificacion = Integer.parseInt(request.getParameter("identificacion"));

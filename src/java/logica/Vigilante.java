@@ -80,7 +80,7 @@ public class Vigilante {
                 v.setIdentificacion(rs.getInt("identificacion"));
                 v.setNombre(rs.getString("nombre"));
                 v.setUsuario(rs.getString("usuario"));
-                v.setContrasenia(rs.getString("contraseña"));
+//                v.setContrasenia(rs.getString("contraseña"));
                 listaVigilantes.add(v);
                 
             }
@@ -152,15 +152,12 @@ public class Vigilante {
     
     public Vigilante buscarVigilante(){
         ConexionBD conexion = new ConexionBD();
-        String sql = "SELECT * FROM vigilantes WHERE identificacion="+this.identificacion+";";
+        String sql = "SELECT * FROM vigilantes WHERE usuario="+this.usuario+" AND contraseña='"+this.contrasenia+"';";
         ResultSet rs = conexion.consultarBD(sql);
         
         try {
             if(rs.next()){
-                this.identificacion = rs.getInt("identificacion");
-                this.nombre = rs.getString("nombre");
-                this.usuario = rs.getString("usuario");
-                this.contrasenia = rs.getString("contraseña"); 
+                contrasenia = "";
             }else{
                 return null;
             }

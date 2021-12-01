@@ -22,7 +22,7 @@
     </div>
 </nav>-->
 <nav class="navbar navbar-expand-lg navbar-dark" style="background: #2e3497;">
-  <a class="navbar-brand" href="usuarios.jsp">Home</a>
+  <a class="navbar-brand" href="login.jsp">Home</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>

@@ -43,8 +43,8 @@
             int identificacion = Integer.parseInt(request.getParameter("identificacion"));
             String nombre = request.getParameter("nombre");
             String usuario = request.getParameter("usuario");
-            String contrasenia = request.getParameter("contrasenia");
-            Vigilante vig = new Vigilante(identificacion, nombre, usuario, contrasenia);
+            String contrasena = request.getParameter("contraseña");
+            Vigilante vig = new Vigilante(identificacion, nombre, usuario, contrasena);
             
 //            
             
@@ -82,17 +82,24 @@
             //Solicitud de parámetros enviados desde el frontned
             //, uso de request.getParameter("nombre parametro")
             //creación de objeto y llamado al metodo consultarIndividual
-            int identificacion= Integer.parseInt(request.getParameter("identificacion"));
-            
-            try {
-                Vigilante obj =new Vigilante();
-                obj.setIdentificacion(identificacion);
-                obj.buscarVigilante();
-                respuesta += "\"" + proceso + "\": true,\"Vigilante\":" + new Gson().toJson(obj);
-            } catch (Exception ex) {
-                respuesta += "\"" + proceso + "\": true,\" Vigilante\":null";
-                Logger.getLogger(Visitas.class.getName()).log(Level.SEVERE, null, ex);
+            String usuario= request.getParameter("usuario");
+            String contrasena = request.getParameter("contrasena");
+            Vigilante v = new Vigilante();
+            v.setUsuario(usuario);
+            v.setContrasenia(contrasena);
+            v.buscarVigilante();
+            if (v != null) {
+//                session.setAttribute("usuario", v);
+                respuesta += "\"" + proceso + "\": true";
+            } else {
+                session.invalidate();
+                respuesta += "\"" + proceso + "\": false";
             }
+
+        } else if (proceso.equals("cerrarSesion")) {
+            session.invalidate();
+            respuesta += "\"" + proceso + "\": true";
+        }
         } else if (proceso.equals("actualizarRegistroVigilante")) {
             //creación de objeto y llamado al metodo actualizar
             int identificacion = Integer.parseInt(request.getParameter("identificacion"));
